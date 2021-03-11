@@ -85,11 +85,13 @@ namespace ToDo_ConsoleApp.Data
         }
 
         /// <summary>
-        /// The method creates a new empty list of ToDo items.
+        /// The method creates a new empty list of ToDo items and
+        /// discards the old Array. Reset is also done on the sequenser.
         /// </summary>
         public void Clear()
         {
             myItems = new ToDo[0];
+            ToDoSequencer.Reset();
         }
 
         public ToDo[] FindByDoneStatus(bool doneStatus)
