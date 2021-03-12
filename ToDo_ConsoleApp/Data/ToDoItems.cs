@@ -42,7 +42,7 @@ namespace ToDo_ConsoleApp.Data
         /// <param name="assignee"></param>
         /// <param name="description"></param>
         /// <returns>Returns the object of the created ToDo item</returns>
-        public ToDo AddToDoItem(Person assignee, string description)
+        public ToDo AddToDoItem(Person assignee = null, string description = "Nothing")
         {
             int nextItemId = ToDoSequencer.NextId();
 
@@ -73,6 +73,7 @@ namespace ToDo_ConsoleApp.Data
                     returnIndex = i;
                 }
             }
+
             if (returnIndex != -1)
             {
                 return myItems[returnIndex];
@@ -203,31 +204,37 @@ namespace ToDo_ConsoleApp.Data
             bool notDoneYet = true;
 
             int myLoop = 0;
-            while (notDoneYet)
+
+            if (myToDo != null)
             {
 
-                if (myItems[myLoop].TodoId == myToDo.TodoId)
+                while (notDoneYet)
                 {
-                    myIndexedToDo = myLoop;
-                    notDoneYet = false;
-                }
-                myLoop++;
 
-                if (myLoop == myToDoCollection)
+                    if (myItems[myLoop].TodoId == myToDo.TodoId)
+                    {
+                        myIndexedToDo = myLoop;
+                        notDoneYet = false;
+                    }
+                    myLoop++;
+
+                    if (myLoop == myToDoCollection)
+                    {
+                        notDoneYet = false;
+                    }
+                }
+
+                if (myIndexedToDo != -1)
                 {
-                    notDoneYet = false;
+                    for (int removeLoop = myIndexedToDo; removeLoop < myToDoCollection - 1; removeLoop++)
+                    {
+                        myItems[removeLoop] = myItems[removeLoop + 1];
+                    }
+
+                    Array.Resize(ref myItems, myToDoCollection - 1);
                 }
             }
 
-            if (myIndexedToDo != -1)
-            {
-                for (int removeLoop = myIndexedToDo; removeLoop < myToDoCollection - 1; removeLoop++)
-                {
-                    myItems[removeLoop] = myItems[removeLoop + 1];
-                }
-
-                Array.Resize(ref myItems, myToDoCollection - 1);
-            }
         }
 
     }

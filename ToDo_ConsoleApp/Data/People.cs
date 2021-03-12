@@ -50,6 +50,7 @@ namespace ToDo_ConsoleApp.Data
 
             while (!notFound && justLooking)
             {
+                // Go through the Array, look for right Id.
                 if (_myPeople[myIndex].PersonId == personId)
                 {
                     justLooking = false;
@@ -85,7 +86,8 @@ namespace ToDo_ConsoleApp.Data
         /// <returns>Returns the object of the created person.</returns>
         public Person AddPerson(string firstName, string lastName)
         {
-            int indexedPersonId = PersonSequencer.getNext(); // nextPersonId();
+            // Create a new person and put in an unique Id from nextPersonId();
+            int indexedPersonId = PersonSequencer.getNext();
             Person newPerson = new Person(indexedPersonId, firstName, lastName);
 
             // Now extend the Array by one so insert is possible
@@ -107,7 +109,7 @@ namespace ToDo_ConsoleApp.Data
         }
 
         /// <summary>
-        /// Remove erases a person in the Array collection. The array is adjusted in length.
+        /// Remove will remove a given person from the Array collection. The array is adjusted in length.
         /// </summary>
         /// <param name="myPerson">The person to erase in the collection.</param>
         public void Remove(Person myPerson)
@@ -117,27 +119,32 @@ namespace ToDo_ConsoleApp.Data
             bool notDone = true;
             int myLoop = 0;
 
-            do
-            {
-                if (_myPeople[myLoop].PersonId == myPerson.PersonId)
-                {
-                    notDone = false;
-                    myIndexedPerson = myLoop;
-                }
-                myLoop++;
-                if (myLoop == myPeopleCollection) notDone = false;
-
-            } while (notDone);
-
-
-            if (myIndexedPerson > -1)
+            if (myPerson != null)
             {
 
-                for (int removeLoop = myIndexedPerson; removeLoop < myPeopleCollection - 1; removeLoop++)
+                do
                 {
-                    _myPeople[removeLoop] = _myPeople[removeLoop + 1];
+                    if (_myPeople[myLoop].PersonId == myPerson.PersonId)
+                    {
+                        notDone = false;
+                        myIndexedPerson = myLoop;
+                    }
+                    myLoop++;
+                    if (myLoop == myPeopleCollection) notDone = false;
+
+                    // We have to look for the person until found or not there.
+                } while (notDone);
+
+
+                if (myIndexedPerson > -1)
+                {
+                    // If the person exists, remove the person by filling upp from behind and adjust Array
+                    for (int removeLoop = myIndexedPerson; removeLoop < myPeopleCollection - 1; removeLoop++)
+                    {
+                        _myPeople[removeLoop] = _myPeople[removeLoop + 1];
+                    }
+                    Array.Resize(ref _myPeople, myPeopleCollection - 1);
                 }
-                Array.Resize(ref _myPeople, myPeopleCollection - 1);
             }
 
         }

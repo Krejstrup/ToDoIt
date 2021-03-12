@@ -24,6 +24,50 @@ namespace ToDo_ConsoleApp.Tests.Model
         }
 
         [Fact]
+        public void Todo_ChangeDescript_GetDescript()
+        {
+            //Arrange
+            string originalDescription = "Run home";
+            string setStringDescription = "Go walk";
+            string constructedDescription;
+            string changedDescription;
+
+            //Act
+
+            ToDo myToDo = new ToDo(1, originalDescription);
+            constructedDescription = myToDo.Description;
+            //change description
+            myToDo.Description = setStringDescription;
+            changedDescription = myToDo.Description;
+
+            //Assert
+            Assert.Equal(originalDescription, constructedDescription);
+            Assert.Equal(setStringDescription, changedDescription);
+        }
+
+        [Fact]
+        public void Todo_ChangeDescriptToNull_GetDescript()
+        {
+            //Arrange
+            string originalDescription = "Run home";
+            string setStringDescription = null;
+            string constructedDescription;
+            string changedDescription;
+            string expectedChangedDescription = "Run home";
+
+            //Act
+            ToDo myToDo = new ToDo(1, originalDescription);
+            constructedDescription = myToDo.Description;
+            //change description
+            myToDo.Description = setStringDescription;
+            changedDescription = myToDo.Description;
+
+            //Assert
+            Assert.Equal(originalDescription, constructedDescription);
+            Assert.Equal(expectedChangedDescription, changedDescription);
+        }
+
+        [Fact]
         public void ToDo_ConstructNoAssignee_GetAssigneeNull()
         {
             //arrange

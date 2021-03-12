@@ -82,6 +82,43 @@ namespace ToDo_ConsoleApp.Tests.Data
             Assert.Null(myLuckyPerson);
         }
 
+        [Fact]
+        public void FindAll_NoneAdded_ReturnEmptyArray()
+        {
+            //Arrange
+            PersonSequencer.Reset();
+            People myPeopleCollection = new People();
+            int expectedSizeOfPeople = 0;
+
+            //Act
+            int myLengthOfPeople = myPeopleCollection.Size();
+            Person[] foundPersons = myPeopleCollection.FindAll();
+
+            //Assert
+            Assert.Equal(expectedSizeOfPeople, myLengthOfPeople);
+            Assert.Empty(foundPersons);
+        }
+
+        [Fact]
+        public void FindAll_Added4_ReturnAll()
+        {
+            //Arrange
+            PersonSequencer.Reset();
+            People myPeopleCollection = new People();
+            int expectedNrOfPersons = 4;
+            myPeopleCollection.AddPerson("Abel", "Jonsson");
+            myPeopleCollection.AddPerson("Kalle", "Jonson");
+            myPeopleCollection.AddPerson("Nisse", "Johnsson");
+            myPeopleCollection.AddPerson("Robert", "Jönsson");
+
+            //Act
+            int myNrOfPeople = myPeopleCollection.Size();
+            Person[] foundPersons = myPeopleCollection.FindAll();
+
+            //Assert
+            Assert.Equal(expectedNrOfPersons, myNrOfPeople);
+            Assert.Equal(expectedNrOfPersons, foundPersons.Length);
+        }
 
 
         [Fact]
@@ -188,6 +225,29 @@ namespace ToDo_ConsoleApp.Tests.Data
 
         }
 
+        [Fact]
+        public void Remove_RemoveNull_NothingRemovedNoCrash()
+        {
+            //Arrange
+            PersonSequencer.Reset();
+            People myPeopleCollection = null;
+            int mySecondTotalNrPersons = 0;
+            int myExpectedNrOfPersons = 4;
+
+            myPeopleCollection = new People();
+            myPeopleCollection.AddPerson("Abel", "Jonsson");
+            myPeopleCollection.AddPerson("Ronja", "Axelsson");
+            myPeopleCollection.AddPerson("Gottfrid", "Larsson");
+            myPeopleCollection.AddPerson("Sahara", "Hotnight");
+
+
+            //Act
+            myPeopleCollection.Remove(null);
+            mySecondTotalNrPersons = myPeopleCollection.Size();
+
+            //Assert
+            Assert.Equal(myExpectedNrOfPersons, mySecondTotalNrPersons);
+        }
         [Fact]
         public void Remove_RemoveOneNotIncluded_NothingRemoved()
         {
